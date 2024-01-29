@@ -11,5 +11,5 @@ The description of the MILP model used for comparison to assess the performance 
 ## Results ##
 A comparison of the achieved results of the GA, the MILP model and previously known results from literature can be found in `all_results.csv`. The file contains the results of each method as well as information about characteristics of the specific benchmark instances.
 ## Comparison Overview ##
-Lastly, there is an overview of the results in comparison to the results provided in the literature:
+Lastly, there is an overview of the results in comparison to the results provided in the literature:  
 ![Benchmark Overview](https://github.com/jrc-rodec/FJSSP-GA/blob/main/delta_rel_by_benchmark.png)
