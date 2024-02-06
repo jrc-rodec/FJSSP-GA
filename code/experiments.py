@@ -42,12 +42,12 @@ def run_experiment(source, instance, parameters : dict):
     run_time = time.time() - start_time
     return result, history, run_time, ga.function_evaluations, ga.restarts, ga.generations
 
-def run(source, instance, target_fitness):
+def run(source, instance, target_fitness, time_limit):
     parameters = {
         'population_size': 5,
         'offspring_amount': 20,
         'max_generations': None,
-        'time_limit': 3600,
+        'time_limit': time_limit,
         'target_fitness': target_fitness,
         'elitism': 1,
         'random_initialization': False,
@@ -79,9 +79,9 @@ if __name__ == '__main__':
 
     time_limit = 3600
     n_experiments = 10
-    selection = [('5_Kacem', 3, 7)]
+    selection = [('6_Fattahi', 10, 516)]
 
     for instance in selection:
         for j in range(n_experiments):
-            result, history, run_time, fevals, generations, restarts, _, _ = run(instance[0], instance[1], instance[2])
-            print(f'{j} - {instance[0]}{instance[1]} - Done')
+            result, history, run_time, fevals, generations, restarts, _, _ = run(instance[0], instance[1], instance[2], time_limit)
+            print(f'{j+1} - {instance[0]}{instance[1]} - Done')
