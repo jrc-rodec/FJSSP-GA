@@ -79,7 +79,7 @@ if __name__ == '__main__':
 
     time_limit = 3600
     n_experiments = 10
-    selection = [('6_Fattahi', 10, 516)]
+    selection = [('5_Kacem', 3, 7)]
 
     for instance in selection:
         for j in range(n_experiments):

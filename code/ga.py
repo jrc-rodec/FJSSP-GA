@@ -8,6 +8,7 @@ class Individual:
     required_operations : list[int] = []
     available_workstations : list[list[int]] = []
     base_durations : list[list[int]] = [] # NOTE: if 0, operation can't be processed on workstation
+    jobs : list[int] = []
 
     # required for initialization with dissimilarity function
     initialization_attempts = 100
@@ -21,10 +22,7 @@ class Individual:
         if parent_a and parent_b:
             #crossover
             #sequence crossover
-            jobs = []
-            for x in Individual.required_operations:
-                if x not in jobs:
-                    jobs.append(x)
+            jobs = Individual.jobs
             set_a = [jobs[j] for j in range(len(jobs)) if parent_split[jobs[j]] == 0]
             set_b = [jobs[j] for j in range(len(jobs)) if parent_split[jobs[j]] == 1]
             b_index = 0
@@ -41,7 +39,6 @@ class Individual:
             split = [0 if random.random() < 0.5 else 1 for _ in range(len(parent_a.workstations))]
             for i in range(len(parent_a.workstations)):
                 self.workstations.append(parent_a.workstations[i] if split[i] == 0 else parent_b.workstations[i])
-            #workers
             #durations, currently just base durations
             self.durations = []
             for i in range(len(self.workstations)):
@@ -171,6 +168,7 @@ class GA:
         for x in jobs:
             if x not in self.jobs:
                 self.jobs.append(x)
+        Individual.jobs = self.jobs.copy()
 
     def recombine(self, parent_a : Individual, parent_b : Individual) -> tuple[Individual, Individual]:
         jobs = []
