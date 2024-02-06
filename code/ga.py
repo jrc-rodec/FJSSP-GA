@@ -85,10 +85,9 @@ class Individual:
         else:
             # randomize
             self.sequence : list[int] = []
-            jobs = Individual.required_operations.copy()
-            for _ in range(len(Individual.required_operations)):
-                while len(jobs) > 0:
-                    self.sequence.append(jobs.pop(random.randint(0, len(jobs)-1)))
+            self.sequence = Individual.required_operations.copy()
+            random.shuffle(self.sequence)
+
             self.workstations : list[int] = []
             for i in range(len(self.sequence)):
                 self.workstations.append(random.choice(Individual.available_workstations[i]))    
@@ -283,14 +282,9 @@ class GA:
                 end_times_of_operations[operation_index] = end_times_on_workstations[workstation]
 
     def evaluate(self, individual : Individual, fill_gaps : bool = False, pruning : bool = False) -> None:
-        if pruning:
-            min_makespan = individual.min_makespan_of_workstation_assignment()
-            if min_makespan > self.current_best.fitness:
-                return 2 * min_makespan
         if not individual.feasible:
             self.infeasible_solutions += 1
             return float('inf')
-
         next_operations = [0] * len(self.jobs)
         end_on_workstations = [0] * len(Individual.base_durations[0])
         end_times = [-1] * len(Individual.required_operations)
@@ -316,10 +310,8 @@ class GA:
                 # check end on prev workstation NOTE: if there is a previous operation of this job, start_index-1 should never be out of range
                 offset = max(0, end_times[start_index-1] - end_on_workstations[workstation])
                 min_start_job = end_times[start_index-1]
-            else:
-                end_times[start_index] = end_on_workstations[workstation]+duration+offset
-                end_on_workstations[workstation] = end_times[start_index]
-
+            end_times[start_index] = end_on_workstations[workstation]+duration+offset
+            end_on_workstations[workstation] = end_times[start_index]
         individual.fitness = max(end_times)
         self.function_evaluations+=1
 
