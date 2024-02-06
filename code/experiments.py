@@ -57,7 +57,6 @@ def run(source, instance, target_fitness, time_limit):
         'adjust_individuals': True,
         'adjust_mutation': True,
         'restart_generations': 50,
-        'mutation_increase_rate': 1.1,
         'max_mutation_rate': 1.0,
         'restart_at_max_mutation_rate': True,
         'avoid_local_mins': True,
