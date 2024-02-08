@@ -313,13 +313,14 @@ class GA:
         if len(individuals) < 1:
             individuals.append(individual)
         else:
-            insert_at = 0
+            inserted = False
             for i in range(len(individuals)):
                 if individual.fitness < individuals[i].fitness:
-                    insert_at = i
+                    inserted = True
+                    individuals.insert(i, individual)
                     break
-                insert_at = i
-            individuals.insert(insert_at, individual)
+            if not inserted:
+                individuals.append(individual)
 
     def _update_history(self, overall_best_history, generation_best_history, average_population_history, p_history, current_best, current_population, p) -> None:
         overall_best_history.append(current_best.fitness)
