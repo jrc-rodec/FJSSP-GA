@@ -171,11 +171,7 @@ class GA:
         Individual.jobs = self.jobs.copy()
 
     def recombine(self, parent_a : Individual, parent_b : Individual) -> tuple[Individual, Individual]:
-        jobs = []
-        for x in Individual.required_operations:
-            if x not in jobs:
-                jobs.append(x)
-        split = [0 if random.random() < 0.5 else 1 for _ in range(len(jobs))]
+        split = [0 if random.random() < 0.5 else 1 for _ in range(len(self.jobs))]
         offspring_a = Individual(parent_a, parent_b, split)
         offspring_b = Individual(parent_b, parent_a, split)
         return offspring_a, offspring_b
@@ -344,12 +340,12 @@ class GA:
                 individual = Individual()
             else:
                 individual = Individual(population=population)
-
             if adjust_optimized_individuals:
                 self.adjust_individual(individual)
             self.evaluate(individual, fill_gaps)
-            population.append(individual)
-        population.sort(key=lambda individual: individual.fitness)
+            self._insert_individual(individual, population)
+            #population.append(individual)
+        #population.sort(key=lambda individual: individual.fitness)
         if not self.current_best or population[0].fitness < self.current_best.fitness:
             self.current_best = population[0]
         return population
@@ -432,7 +428,7 @@ class GA:
         self.overall_best = population[0]
         self.current_best = population[0]
 
-        population.sort(key=lambda x: x.fitness)
+        #population.sort(key=lambda x: x.fitness)
         generation = 0
         starting_p = p = 1 / (len(self.current_best.sequence) + len(self.current_best.workstations)) # mutation probability
         
